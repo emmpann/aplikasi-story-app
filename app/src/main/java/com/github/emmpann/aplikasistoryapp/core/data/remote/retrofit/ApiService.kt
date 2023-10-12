@@ -1,10 +1,10 @@
 package com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit
 
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.AllStoryResponse
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.DetailStoryResponse
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.AllStoryResponse
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.DetailStoryResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.RegisterResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.Response
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.UploadStoryResponse
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.UploadStoryResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Field
@@ -42,7 +42,7 @@ interface ApiService {
     suspend fun getAllStory(
     ): AllStoryResponse
 
-    @GET("stories/:id")
+    @GET("stories/{id}")
     suspend fun getDetailStory(
             @Path("id") id: String
     ): DetailStoryResponse

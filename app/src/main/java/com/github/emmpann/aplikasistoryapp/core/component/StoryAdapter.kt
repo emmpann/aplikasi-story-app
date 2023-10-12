@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ListStoryItem
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.ListStoryItem
 import com.github.emmpann.aplikasistoryapp.databinding.ItemStoryBinding
 
 class StoryAdapter: RecyclerView.Adapter<StoryItemView>() {

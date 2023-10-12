@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.github.emmpann.aplikasistoryapp.core.data.di.Injection
-import com.github.emmpann.aplikasistoryapp.core.data.local.repository.StoryRepository
+import com.github.emmpann.aplikasistoryapp.core.data.local.repository.story.StoryRepository
 import com.github.emmpann.aplikasistoryapp.core.data.local.repository.user.UserRepository
 import com.github.emmpann.aplikasistoryapp.feature.add.AddViewModel
 import com.github.emmpann.aplikasistoryapp.feature.detail.DetailViewModel

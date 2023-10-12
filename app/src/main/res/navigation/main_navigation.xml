@@ -58,5 +58,10 @@
         android:id="@+id/detailFragment"
         android:name="com.github.emmpann.aplikasistoryapp.feature.detail.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="storyId"
+            app:argType="string"
+            android:defaultValue='""' />
+    </fragment>
 </navigation>

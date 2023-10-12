@@ -1,11 +1,7 @@
-package com.github.emmpann.aplikasistoryapp.core.data.local.repository
+package com.github.emmpann.aplikasistoryapp.core.data.local.repository.story
 
 import androidx.lifecycle.liveData
-import com.github.emmpann.aplikasistoryapp.core.data.local.database.UserDao
-import com.github.emmpann.aplikasistoryapp.core.data.local.pref.UserPreference
-import com.github.emmpann.aplikasistoryapp.core.data.local.repository.user.UserRepository
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.Result
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.Story
 import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.ApiService
 import retrofit2.HttpException
 

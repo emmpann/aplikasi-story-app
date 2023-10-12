@@ -4,7 +4,7 @@ import android.content.Context
 import com.github.emmpann.aplikasistoryapp.core.data.local.database.UserRoomDatabase
 import com.github.emmpann.aplikasistoryapp.core.data.local.pref.UserPreference
 import com.github.emmpann.aplikasistoryapp.core.data.local.pref.dataStore
-import com.github.emmpann.aplikasistoryapp.core.data.local.repository.StoryRepository
+import com.github.emmpann.aplikasistoryapp.core.data.local.repository.story.StoryRepository
 import com.github.emmpann.aplikasistoryapp.core.data.local.repository.user.UserRepository
 import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.ApiConfig
 import kotlinx.coroutines.flow.first

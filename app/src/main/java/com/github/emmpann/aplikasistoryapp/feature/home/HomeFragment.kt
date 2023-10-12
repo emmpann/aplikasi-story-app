@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.emmpann.aplikasistoryapp.R
 import com.github.emmpann.aplikasistoryapp.core.component.StoryAdapter
 import com.github.emmpann.aplikasistoryapp.core.data.factory.ViewModelFactoryStory
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ListStoryItem
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.ListStoryItem
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.Result
 import com.github.emmpann.aplikasistoryapp.databinding.FragmentHomeBinding
 
@@ -68,7 +68,9 @@ class HomeFragment : Fragment() {
             adapter = storyAdapter
             storyAdapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
                 override fun onItemClicked(data: ListStoryItem) {
-                    findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
+                    val toDetailFragment = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
+                    toDetailFragment.storyId = data.id
+                    findNavController().navigate(toDetailFragment)
                 }
             })
         }

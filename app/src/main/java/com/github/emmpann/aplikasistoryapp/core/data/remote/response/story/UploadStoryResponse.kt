@@ -1,4 +1,4 @@
-package com.github.emmpann.aplikasistoryapp.core.data.remote.response
+package com.github.emmpann.aplikasistoryapp.core.data.remote.response.story
 
 import com.google.gson.annotations.SerializedName
 
