@@ -17,7 +17,7 @@ import retrofit2.http.Path
 
 interface ApiService {
     @Multipart
-    @POST
+    @POST("stories")
     suspend fun uploadStory(
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody
