@@ -7,12 +7,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.github.emmpann.aplikasistoryapp.R
 import com.github.emmpann.aplikasistoryapp.core.component.getImageUri
+import com.github.emmpann.aplikasistoryapp.core.component.reduceFileImage
+import com.github.emmpann.aplikasistoryapp.core.component.uriToFile
 import com.github.emmpann.aplikasistoryapp.core.data.factory.ViewModelFactoryStory
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.Result
 import com.github.emmpann.aplikasistoryapp.databinding.FragmentAddBinding
 
 class AddFragment : Fragment() {
@@ -52,7 +56,7 @@ class AddFragment : Fragment() {
             }
 
             submitButton.setOnClickListener {
-
+                uploadImage()
             }
         }
     }
@@ -62,6 +66,35 @@ class AddFragment : Fragment() {
             Log.d("Image URI", "showImage: $it")
             binding.imagePreview.setImageURI(it)
         }
+    }
+
+    private fun uploadImage() {
+        currentImageUri?.let { uri ->
+            val imageFile = uriToFile(uri, requireContext()).reduceFileImage()
+            Log.d("Image File", "showImage: ${imageFile.path}")
+            val description = binding.descEditText.text.toString()
+            showLoading(true)
+
+            viewModel.uploadStory(imageFile, description).observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Result.Loading -> {
+                        showLoading(true)
+                    }
+
+                    is Result.Success -> {
+                        showLoading(false)
+                        showToast(result.data.message)
+                    }
+
+                    is Result.Error -> {
+                        showLoading(false)
+                        showToast(result.error)
+                    }
+
+                    else -> {}
+                }
+            }
+        } ?: showToast(getString(R.string.empty_image_warning))
     }
 
     private fun startCamera() {
@@ -90,5 +123,13 @@ class AddFragment : Fragment() {
         } else {
             Log.d("Photo Picker", "No media selected")
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }

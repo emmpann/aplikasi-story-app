@@ -16,10 +16,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_place_holder"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_place_holder"
             app:layout_constraintBottom_toTopOf="@+id/cameraButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,8 +41,8 @@
             android:id="@+id/galleryButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/gallery"
             android:layout_marginEnd="8dp"
+            android:text="@string/gallery"
             app:layout_constraintBottom_toBottomOf="@id/cameraButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cameraButton"
@@ -50,22 +50,24 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/descEditTextLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/description"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="16dp"
+            android:hint="@string/description"
             app:layout_constraintBottom_toTopOf="@+id/submitButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:layout_constraintStart_toStartOf="parent">
+
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="top"
                 android:inputType="textMultiLine"
-                android:lines="8"
-                android:gravity="top"/>
+                android:lines="8" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -74,10 +76,21 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/upload"
             android:layout_marginBottom="16dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/upload"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
