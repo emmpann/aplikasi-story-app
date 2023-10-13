@@ -2,6 +2,7 @@ package com.github.emmpann.aplikasistoryapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.github.emmpann.aplikasistoryapp.core.data.factory.ViewModelFactoryUser
@@ -25,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         val navGraph = navInflater.inflate(R.navigation.main_navigation)
 
         mainViewModel.getSession().observe(this) {
+            Log.d("MainActivity", it.token)
+            Log.d("MainActivity", it.name)
             if (it.isLogin) {
                 navGraph.setStartDestination(R.id.homeFragment)
             } else {

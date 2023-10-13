@@ -2,14 +2,12 @@ package com.github.emmpann.aplikasistoryapp.core.data.local.repository.user
 
 import androidx.lifecycle.liveData
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.Result
-import com.github.emmpann.aplikasistoryapp.core.data.local.database.UserDao
 import com.github.emmpann.aplikasistoryapp.core.data.local.pref.UserPreference
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.User
 import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.ApiService
 import retrofit2.HttpException
 
 class UserRepository(
-    private val userDao: UserDao,
     private val userPreference: UserPreference,
     private val apiService: ApiService
 ) {
@@ -51,12 +49,11 @@ class UserRepository(
         private var instance: UserRepository? = null
 
         fun getInstance(
-            userDao: UserDao,
             userPreference: UserPreference,
             apiService: ApiService
         ): UserRepository =
             instance ?: synchronized(this) {
-                instance ?: UserRepository(userDao, userPreference, apiService)
+                instance ?: UserRepository(userPreference, apiService)
             }.also { instance = it }
     }
 }

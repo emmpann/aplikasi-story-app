@@ -3,7 +3,7 @@ package com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.AllStoryResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.DetailStoryResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.RegisterResponse
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.Response
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.LoginResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.UploadStoryResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -36,7 +36,7 @@ interface ApiService {
     suspend fun login(
         @Field("email") email: String,
         @Field("password") password: String
-    ) : Response
+    ) : LoginResponse
 
     @GET("stories")
     suspend fun getAllStory(

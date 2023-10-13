@@ -20,6 +20,7 @@ class StoryRepository (private val apiService: ApiService) {
         try {
             val successResponse = apiService.getAllStory()
             emit(Result.Success(successResponse.listStory))
+            Log.d("StoryRepository", "")
         } catch (e: HttpException) {
             emit(Result.Error(e.message()))
         }

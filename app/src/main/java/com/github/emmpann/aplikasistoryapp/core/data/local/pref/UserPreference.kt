@@ -8,10 +8,10 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.github.emmpann.aplikasistoryapp.core.data.local.database.UserModel
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import okhttp3.internal.threadName
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "session")
 
@@ -21,16 +21,17 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         Log.d("saveSession", " datastore is saved")
         dataStore.edit { preferences ->
             preferences[NAME] = user.name
+            preferences[USER_ID] = user.userId
             preferences[TOKEN_KEY] = user.token
             preferences[IS_LOGIN_KEY] = true
         }
     }
 
-    fun getSession(): Flow<UserModel> {
-        Log.d("getSession", " datastore is got = ${dataStore.data == null}")
+    fun getSession(): Flow<User> {
         return dataStore.data.map { preferences ->
-            UserModel(
-                email = preferences[NAME] ?: "",
+            User(
+                name = preferences[NAME] ?: "",
+                userId = preferences[USER_ID] ?: "",
                 token = preferences[TOKEN_KEY] ?: "",
                 isLogin = preferences[IS_LOGIN_KEY] ?: false
             )
@@ -41,14 +42,14 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         dataStore.edit { preferences ->
             preferences.clear()
         }
-        Log.d("Logout", " datastore cleared ${dataStore == null}")
     }
 
     companion object {
         @Volatile
         private var INSTANCE: UserPreference? = null
 
-        private val NAME = stringPreferencesKey("email")
+        private val NAME = stringPreferencesKey("name")
+        private val USER_ID = stringPreferencesKey("userid")
         private val TOKEN_KEY = stringPreferencesKey("token")
         private val IS_LOGIN_KEY = booleanPreferencesKey("isLogin")
 
