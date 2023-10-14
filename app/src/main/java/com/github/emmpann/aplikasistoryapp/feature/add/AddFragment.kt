@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.github.emmpann.aplikasistoryapp.R
 import com.github.emmpann.aplikasistoryapp.core.component.getImageUri
@@ -41,7 +42,17 @@ class AddFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupToolbar(view)
         setupAction()
+    }
+
+    private fun setupToolbar(view: View) {
+        (requireActivity() as AppCompatActivity).apply {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.title = null
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
+
     }
 
     private fun setupAction() {
@@ -125,7 +136,7 @@ class AddFragment : Fragment() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun showToast(message: String) {
