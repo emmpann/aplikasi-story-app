@@ -57,7 +57,13 @@
         android:id="@+id/addFragment"
         android:name="com.github.emmpann.aplikasistoryapp.feature.add.AddFragment"
         android:label="fragment_add"
-        tools:layout="@layout/fragment_add" />
+        tools:layout="@layout/fragment_add" >
+        <action
+            android:id="@+id/action_addFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/homeFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.github.emmpann.aplikasistoryapp.feature.detail.DetailFragment"

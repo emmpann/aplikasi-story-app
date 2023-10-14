@@ -2,7 +2,6 @@ package com.github.emmpann.aplikasistoryapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.github.emmpann.aplikasistoryapp.databinding.ActivityMainBinding
@@ -25,12 +24,10 @@ class MainActivity : AppCompatActivity() {
         val navGraph = navInflater.inflate(R.navigation.main_navigation)
 
         mainViewModel.getSession().observe(this) {
-            if (it.isLogin) {
-                Log.d("MainActivity", "home")
+            if (it.isLogin && it.token.isNotEmpty()) {
                 navGraph.setStartDestination(R.id.homeFragment)
                 navHostFragment.navController.graph = navGraph
             } else {
-                Log.d("MainActivity", "welcome")
                 navGraph.setStartDestination(R.id.welcomeFragment)
                 navHostFragment.navController.graph = navGraph
             }

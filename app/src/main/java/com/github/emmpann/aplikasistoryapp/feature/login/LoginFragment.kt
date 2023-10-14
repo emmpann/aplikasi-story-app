@@ -109,9 +109,9 @@ class LoginFragment : Fragment() {
 
     private fun showDialog(message: String) {
         AlertDialog.Builder(requireContext()).apply {
-            setTitle("Yeah!")
+            setTitle(getString(R.string.error))
             setMessage(message)
-            setPositiveButton("Lanjut") { _, _ ->
+            setPositiveButton(getString(R.string.yes)) { _, _ ->
 
             }
             create()

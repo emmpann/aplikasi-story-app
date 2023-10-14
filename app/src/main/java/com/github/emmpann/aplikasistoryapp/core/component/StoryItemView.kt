@@ -13,7 +13,6 @@ class StoryItemView(private val binding: ItemStoryBinding): RecyclerView.ViewHol
             Glide.with(binding.root.context)
                 .load(data.photoUrl)
                 .into(imageView)
-
         }
     }
 }

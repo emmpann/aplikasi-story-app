@@ -4,9 +4,9 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.util.Patterns
 import androidx.appcompat.widget.AppCompatEditText
+import com.github.emmpann.aplikasistoryapp.R
 
 class CustomEditText : AppCompatEditText {
 
@@ -19,9 +19,15 @@ class CustomEditText : AppCompatEditText {
 
             override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
                 if (inputType == 129) { // input type: textPassword
-                    if (p0.toString().isNotEmpty() && p0.toString().length < 8) showError("Password tidak boleh kurang dari 8 karakter") else hideError()
+                    if (p0.toString().isNotEmpty() && p0.toString().length < 8) showError(
+                        context.getString(
+                            R.string.password_strict
+                        )) else hideError()
                 } else if (inputType == 33) { // input type: textEmail
-                    if (p0.toString().isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(p0).matches()) showError("Format email salah") else hideError()
+                    if (p0.toString().isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(p0).matches()) showError(
+                        context.getString(
+                            R.string.incorrect_format
+                        )) else hideError()
                 }
             }
 

@@ -49,8 +49,6 @@ class DetailFragment : Fragment() {
     private fun setupData() {
         val storyId = DetailFragmentArgs.fromBundle(arguments as Bundle).storyId
 
-        Log.d("DetailFragment", storyId)
-
         viewModel.getStoryDetail(storyId).observe(viewLifecycleOwner) { result ->
             when(result) {
                 is ResultApi.Loading -> {

@@ -1,11 +1,14 @@
 package com.github.emmpann.aplikasistoryapp.feature.home
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,9 +52,13 @@ class HomeFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menu1 -> {
-                    // logout
-                    viewModel.logout()
-                    view.findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+                    startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+                    true
+                }
+
+                R.id.menu2 -> {
+                    //logout
+                    showDialog()
                     true
                 }
 
@@ -108,5 +115,18 @@ class HomeFragment : Fragment() {
 
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showDialog() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.logout))
+            setMessage(getString(R.string.are_you_sure))
+            setPositiveButton(getString(R.string.yes)) { _, _ ->
+                viewModel.logout()
+                view?.findNavController()?.navigate(R.id.action_homeFragment_to_loginFragment)
+            }
+            create()
+            show()
+        }
     }
 }

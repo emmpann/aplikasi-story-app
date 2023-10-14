@@ -21,7 +21,6 @@ class StoryRepository (private val apiService: ApiService) {
         try {
             val successResponse = apiService.getAllStory()
             emit(ResultApi.Success(successResponse.listStory))
-            Log.d("pilat", "called")
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, RequestAllStoryResponse::class.java)

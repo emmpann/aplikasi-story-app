@@ -12,6 +12,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.github.emmpann.aplikasistoryapp.R
 import com.github.emmpann.aplikasistoryapp.core.component.getImageUri
 import com.github.emmpann.aplikasistoryapp.core.component.reduceFileImage
@@ -73,7 +74,6 @@ class AddFragment : Fragment() {
 
     private fun showImage() {
         currentImageUri?.let {
-            Log.d("Image URI", "showImage: $it")
             binding.imagePreview.setImageURI(it)
         }
     }
@@ -81,7 +81,6 @@ class AddFragment : Fragment() {
     private fun uploadImage() {
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, requireContext()).reduceFileImage()
-            Log.d("Image File", "showImage: ${imageFile.path}")
             val description = binding.descEditText.text.toString()
             showLoading(true)
 
@@ -94,6 +93,7 @@ class AddFragment : Fragment() {
                     is ResultApi.Success -> {
                         showLoading(false)
                         showToast(result.data.message)
+                        view?.findNavController()?.navigate(R.id.action_addFragment_to_homeFragment)
                     }
 
                     is ResultApi.Error -> {
