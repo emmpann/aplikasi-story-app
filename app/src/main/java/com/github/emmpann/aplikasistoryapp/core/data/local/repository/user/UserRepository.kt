@@ -1,10 +1,14 @@
 package com.github.emmpann.aplikasistoryapp.core.data.local.repository.user
 
+import android.util.Log
 import androidx.lifecycle.liveData
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.Result
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.core.data.local.pref.UserPreference
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.RequestLoginResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.User
 import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.ApiService
+import com.google.gson.Gson
+import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
 
 class UserRepository(
@@ -13,24 +17,26 @@ class UserRepository(
 ) {
 
     fun login(email: String, password: String) = liveData {
-        emit(Result.Loading)
+        emit(ResultApi.Loading)
 
         try {
             val successResponse = apiService.login(email, password)
-            emit(Result.Success(successResponse))
+            emit(ResultApi.Success(successResponse))
         } catch (e: HttpException) {
-            emit(Result.Error(e.message().toString()))
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, RequestLoginResponse::class.java)
+            emit(ResultApi.Error(errorResponse.message))
         }
     }
 
     fun signUp(name: String, email: String, password: String) = liveData {
-        emit(Result.Loading)
+        emit(ResultApi.Loading)
 
         try {
             val successResponse = apiService.register(name, email, password)
-            emit(Result.Success(successResponse))
+            emit(ResultApi.Success(successResponse))
         } catch (e: HttpException) {
-            emit(Result.Error(e.message()))
+            emit(ResultApi.Error(e.message()))
         }
     }
 
@@ -42,18 +48,5 @@ class UserRepository(
 
     suspend fun logout() {
         userPreference.logout()
-    }
-
-    companion object {
-        @Volatile
-        private var instance: UserRepository? = null
-
-        fun getInstance(
-            userPreference: UserPreference,
-            apiService: ApiService
-        ): UserRepository =
-            instance ?: synchronized(this) {
-                instance ?: UserRepository(userPreference, apiService)
-            }.also { instance = it }
     }
 }

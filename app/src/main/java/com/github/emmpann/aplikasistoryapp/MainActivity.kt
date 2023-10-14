@@ -5,15 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
-import com.github.emmpann.aplikasistoryapp.core.data.factory.ViewModelFactoryUser
 import com.github.emmpann.aplikasistoryapp.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val mainViewModel: MainViewModel by viewModels {
-        ViewModelFactoryUser.getInstance(this)
-    }
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,11 +25,12 @@ class MainActivity : AppCompatActivity() {
         val navGraph = navInflater.inflate(R.navigation.main_navigation)
 
         mainViewModel.getSession().observe(this) {
-            Log.d("MainActivity", it.token)
-            Log.d("MainActivity", it.name)
             if (it.isLogin) {
+                Log.d("MainActivity", "home")
                 navGraph.setStartDestination(R.id.homeFragment)
+                navHostFragment.navController.graph = navGraph
             } else {
+                Log.d("MainActivity", "welcome")
                 navGraph.setStartDestination(R.id.welcomeFragment)
                 navHostFragment.navController.graph = navGraph
             }

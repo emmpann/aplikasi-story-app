@@ -15,18 +15,17 @@ import com.github.emmpann.aplikasistoryapp.R
 import com.github.emmpann.aplikasistoryapp.core.component.getImageUri
 import com.github.emmpann.aplikasistoryapp.core.component.reduceFileImage
 import com.github.emmpann.aplikasistoryapp.core.component.uriToFile
-import com.github.emmpann.aplikasistoryapp.core.data.factory.ViewModelFactoryStory
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.Result
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.databinding.FragmentAddBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddFragment : Fragment() {
 
     private var _binding: FragmentAddBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: AddViewModel by viewModels {
-        ViewModelFactoryStory.getInstance(requireContext())
-    }
+    private val viewModel: AddViewModel by viewModels()
 
     private var currentImageUri: Uri? = null
 
@@ -77,16 +76,16 @@ class AddFragment : Fragment() {
 
             viewModel.uploadStory(imageFile, description).observe(viewLifecycleOwner) { result ->
                 when (result) {
-                    is Result.Loading -> {
+                    is ResultApi.Loading -> {
                         showLoading(true)
                     }
 
-                    is Result.Success -> {
+                    is ResultApi.Success -> {
                         showLoading(false)
                         showToast(result.data.message)
                     }
 
-                    is Result.Error -> {
+                    is ResultApi.Error -> {
                         showLoading(false)
                         showToast(result.error)
                     }

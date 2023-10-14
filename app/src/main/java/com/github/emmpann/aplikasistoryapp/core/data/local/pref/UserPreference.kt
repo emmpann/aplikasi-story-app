@@ -11,14 +11,13 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import okhttp3.internal.threadName
+import javax.inject.Inject
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "session")
 
-class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
+class UserPreference (private val dataStore: DataStore<Preferences>) {
 
     suspend fun saveSession(user: User) {
-        Log.d("saveSession", " datastore is saved")
         dataStore.edit { preferences ->
             preferences[NAME] = user.name
             preferences[USER_ID] = user.userId
@@ -45,20 +44,10 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
     }
 
     companion object {
-        @Volatile
-        private var INSTANCE: UserPreference? = null
-
         private val NAME = stringPreferencesKey("name")
         private val USER_ID = stringPreferencesKey("userid")
         private val TOKEN_KEY = stringPreferencesKey("token")
         private val IS_LOGIN_KEY = booleanPreferencesKey("isLogin")
 
-        fun getInstance(dataStore: DataStore<Preferences>): UserPreference {
-            return INSTANCE ?: synchronized(this) {
-                val instance = UserPreference(dataStore)
-                INSTANCE = instance
-                instance
-            }
-        }
     }
 }

@@ -2,8 +2,9 @@ package com.github.emmpann.aplikasistoryapp.core.data.local.repository.story
 
 import android.util.Log
 import androidx.lifecycle.liveData
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.Result
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.UploadStoryResponse
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.RequestAllStoryResponse
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.RequestUploadStoryResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.ApiService
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
@@ -14,31 +15,33 @@ import retrofit2.HttpException
 import java.io.File
 
 class StoryRepository (private val apiService: ApiService) {
-    fun getALlStory() = liveData {
-        emit(Result.Loading)
+    fun getAllStory() = liveData {
+        emit(ResultApi.Loading)
 
         try {
             val successResponse = apiService.getAllStory()
-            emit(Result.Success(successResponse.listStory))
-            Log.d("StoryRepository", "")
+            emit(ResultApi.Success(successResponse.listStory))
+            Log.d("pilat", "called")
         } catch (e: HttpException) {
-            emit(Result.Error(e.message()))
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, RequestAllStoryResponse::class.java)
+            emit(ResultApi.Error(errorResponse.message))
         }
     }
 
     fun getStoryDetail(id: String) = liveData {
-        emit(Result.Loading)
+        emit(ResultApi.Loading)
 
         try {
             val successResponse = apiService.getDetailStory(id)
-            emit(Result.Success(successResponse.story))
+            emit(ResultApi.Success(successResponse.story))
         } catch (e: HttpException) {
-            emit(Result.Error(e.message()))
+            emit(ResultApi.Error(e.message()))
         }
     }
 
     fun uploadStory(imageFile: File, description: String) = liveData {
-        emit(Result.Loading)
+        emit(ResultApi.Loading)
 
         val requestBody = description.toRequestBody("text/plain".toMediaType())
         val requestImageFile = imageFile.asRequestBody()
@@ -51,23 +54,11 @@ class StoryRepository (private val apiService: ApiService) {
 
         try {
             val successResponse = apiService.uploadStory(multiPartBody, requestBody)
-            emit(Result.Success(successResponse))
+            emit(ResultApi.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, UploadStoryResponse::class.java)
-            emit(Result.Error(errorResponse.message))
+            val errorResponse = Gson().fromJson(errorBody, RequestUploadStoryResponse::class.java)
+            emit(ResultApi.Error(errorResponse.message))
         }
-    }
-
-    companion object {
-        @Volatile
-        private var instance: StoryRepository? = null
-
-        fun getInstance(
-            apiService: ApiService
-        ): StoryRepository =
-            instance ?: synchronized(this) {
-                instance ?: StoryRepository(apiService)
-            }.also { instance = it }
     }
 }

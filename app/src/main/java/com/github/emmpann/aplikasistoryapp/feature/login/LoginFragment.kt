@@ -8,20 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.github.emmpann.aplikasistoryapp.R
-import com.github.emmpann.aplikasistoryapp.core.data.factory.ViewModelFactoryUser
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.Result
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.databinding.FragmentLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: LoginViewModel by viewModels {
-        ViewModelFactoryUser.getInstance(requireContext())
-    }
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,12 +45,12 @@ class LoginFragment : Fragment() {
                 viewModel.login(emailEditText.text.toString(), passwordEditText.text.toString()).observe(viewLifecycleOwner) { result ->
                     if (result != null) {
                         when (result) {
-                            is Result.Loading -> {
+                            is ResultApi.Loading -> {
                                 // show loading
                                 showLoading(true)
                             }
 
-                            is Result.Success -> {
+                            is ResultApi.Success -> {
                                 showLoading(false)
                                 // name, userid, token
                                 viewModel.saveSession(result.data.loginResult)
@@ -58,12 +58,10 @@ class LoginFragment : Fragment() {
                                 view.findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                             }
 
-                            is Result.Error -> {
+                            is ResultApi.Error -> {
                                 showLoading(false)
-                                showToast(result.error)
+                                showDialog(result.error)
                             }
-
-                            else -> {}
                         }
                     }
                 }
@@ -107,5 +105,17 @@ class LoginFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showDialog(message: String) {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle("Yeah!")
+            setMessage(message)
+            setPositiveButton("Lanjut") { _, _ ->
+
+            }
+            create()
+            show()
+        }
     }
 }

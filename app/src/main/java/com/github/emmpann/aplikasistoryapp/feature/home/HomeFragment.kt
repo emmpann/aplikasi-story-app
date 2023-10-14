@@ -11,20 +11,19 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.emmpann.aplikasistoryapp.R
 import com.github.emmpann.aplikasistoryapp.core.component.StoryAdapter
-import com.github.emmpann.aplikasistoryapp.core.data.factory.ViewModelFactoryStory
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.ListStoryItem
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.Result
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.Story
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var storyAdapter: StoryAdapter
 
-    private val viewModel: HomeViewModel by viewModels {
-        ViewModelFactoryStory.getInstance(requireContext())
-    }
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,14 +37,14 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupToolbar(view)
         setupAction(view)
         setupItem()
     }
 
-    private fun setupAction(view: View) {
-        binding.addStoryButton.setOnClickListener {
-            view.findNavController().navigate(R.id.action_homeFragment_to_addFragment)
-        }
+    private fun setupToolbar(view: View) {
+
+        binding.toolbar.title = getString(R.string.app_name)
 
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -61,13 +60,19 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun setupAction(view: View) {
+        binding.addStoryButton.setOnClickListener {
+            view.findNavController().navigate(R.id.action_homeFragment_to_addFragment)
+        }
+    }
+
     private fun setupItem() {
         binding.rvStory.apply {
             storyAdapter = StoryAdapter()
             layoutManager = LinearLayoutManager(requireContext())
             adapter = storyAdapter
             storyAdapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
-                override fun onItemClicked(data: ListStoryItem) {
+                override fun onItemClicked(data: Story) {
                     val toDetailFragment = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
                     toDetailFragment.storyId = data.id
                     findNavController().navigate(toDetailFragment)
@@ -77,17 +82,17 @@ class HomeFragment : Fragment() {
 
         viewModel.getAllStory().observe(viewLifecycleOwner) {result ->
             when (result) {
-                is Result.Loading -> {
+                is ResultApi.Loading -> {
                     showLoading(true)
                     storyAdapter.clearList()
                 }
 
-                is Result.Success -> {
+                is ResultApi.Success -> {
                     showLoading(false)
                     storyAdapter.setList(result.data)
                 }
 
-                is Result.Error -> {
+                is ResultApi.Error -> {
                     showLoading(false)
                     showToast(result.error)
                 }

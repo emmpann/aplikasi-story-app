@@ -9,19 +9,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.github.emmpann.aplikasistoryapp.R
-import com.github.emmpann.aplikasistoryapp.core.data.factory.ViewModelFactoryStory
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.Result
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.databinding.FragmentDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: DetailViewModel by viewModels {
-        ViewModelFactoryStory.getInstance(requireContext())
-    }
+    private val viewModel: DetailViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,11 +43,11 @@ class DetailFragment : Fragment() {
 
         viewModel.getStoryDetail(storyId).observe(viewLifecycleOwner) { result ->
             when(result) {
-                is Result.Loading -> {
+                is ResultApi.Loading -> {
                     showLoading(true)
                 }
 
-                is Result.Success -> {
+                is ResultApi.Success -> {
                     showLoading(false)
                     with(binding) {
                         Glide.with(requireContext()).load(result.data.photoUrl).into(imageView)
@@ -58,7 +56,7 @@ class DetailFragment : Fragment() {
                     }
                 }
 
-                is Result.Error -> {
+                is ResultApi.Error -> {
                     showLoading(false)
                     showToast(result.error)
                 }

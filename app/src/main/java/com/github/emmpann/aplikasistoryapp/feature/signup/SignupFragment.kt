@@ -10,17 +10,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
-import com.github.emmpann.aplikasistoryapp.core.data.factory.ViewModelFactoryUser
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.Result
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.databinding.FragmentSignupBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignupFragment : Fragment() {
 
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: SignupViewModel by viewModels {
-        ViewModelFactoryUser.getInstance(requireContext())
-    }
+    private val viewModel: SignupViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,23 +49,21 @@ class SignupFragment : Fragment() {
                 ).observe(viewLifecycleOwner) { result ->
                     if (result != null) {
                         when (result) {
-                            is Result.Loading -> {
+                            is ResultApi.Loading -> {
                                 showLoading(true)
                             }
 
-                            is Result.Success -> {
+                            is ResultApi.Success -> {
                                 showLoading(false)
                                 showToast(result.data.message)
                                 clearField()
                                 showDialog()
                             }
 
-                            is Result.Error -> {
+                            is ResultApi.Error -> {
                                 showLoading(false)
                                 showToast(result.error)
                             }
-
-                            else -> {}
                         }
                     }
                 }

@@ -4,12 +4,12 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.ListStoryItem
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.Story
 import com.github.emmpann.aplikasistoryapp.databinding.ItemStoryBinding
 
 class StoryAdapter: RecyclerView.Adapter<StoryItemView>() {
 
-    private val list: ArrayList<ListStoryItem> = arrayListOf()
+    private val list: ArrayList<Story> = arrayListOf()
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -27,14 +27,14 @@ class StoryAdapter: RecyclerView.Adapter<StoryItemView>() {
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: ListStoryItem)
+        fun onItemClicked(data: Story)
     }
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
 
-    fun setList(stories: List<ListStoryItem>) {
+    fun setList(stories: List<Story>) {
         list.addAll(stories)
         if (list.size > 1) notifyItemRangeChanged(0, list.lastIndex) else notifyItemInserted(0)
     }
