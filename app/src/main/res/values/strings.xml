@@ -23,4 +23,7 @@
     <string name="password_strict">Use at least 8 characters</string>
     <string name="incorrect_format">Incorrect format</string>
     <string name="error">Error!</string>
+    <string name="success">Success!</string>
+    <string name="signup_success">The account with %s is ready. Come on, log in and learn to code</string>
+    <string name="detail_story_image">Detail story image</string>
 </resources>

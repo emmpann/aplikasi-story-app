@@ -1,6 +1,5 @@
 package com.github.emmpann.aplikasistoryapp.core.data.local.repository.story
 
-import android.util.Log
 import androidx.lifecycle.liveData
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.RequestAllStoryResponse

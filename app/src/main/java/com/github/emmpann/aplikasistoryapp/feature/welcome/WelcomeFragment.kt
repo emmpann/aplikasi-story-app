@@ -1,6 +1,5 @@
 package com.github.emmpann.aplikasistoryapp.feature.welcome
 
-import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
@@ -11,19 +10,17 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.github.emmpann.aplikasistoryapp.R
 import com.github.emmpann.aplikasistoryapp.databinding.FragmentWelcomeBinding
-import kotlin.math.sign
 
 class WelcomeFragment : Fragment() {
 
-    private var _binding: FragmentWelcomeBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentWelcomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentWelcomeBinding.inflate(layoutInflater, container, false)
+        binding = FragmentWelcomeBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 

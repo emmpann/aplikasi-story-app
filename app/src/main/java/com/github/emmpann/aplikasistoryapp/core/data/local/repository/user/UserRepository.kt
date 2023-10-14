@@ -1,5 +1,6 @@
 package com.github.emmpann.aplikasistoryapp.core.data.local.repository.user
 
+import android.util.Log
 import androidx.lifecycle.liveData
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.core.data.local.pref.UserPreference
@@ -7,6 +8,7 @@ import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.Reques
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.User
 import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.ApiService
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
 
 class UserRepository(

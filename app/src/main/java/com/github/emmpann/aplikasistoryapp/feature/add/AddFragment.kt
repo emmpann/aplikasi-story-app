@@ -24,8 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AddFragment : Fragment() {
 
-    private var _binding: FragmentAddBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentAddBinding
 
     private val viewModel: AddViewModel by viewModels()
 
@@ -36,18 +35,18 @@ class AddFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentAddBinding.inflate(layoutInflater, container, false)
+        binding = FragmentAddBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupToolbar(view)
+        setupToolbar()
         setupAction()
     }
 
-    private fun setupToolbar(view: View) {
+    private fun setupToolbar() {
         (requireActivity() as AppCompatActivity).apply {
             setSupportActionBar(binding.toolbar)
             supportActionBar?.title = null

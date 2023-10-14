@@ -9,7 +9,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val userRepository: UserRepository, private val storyRepository: StoryRepository) : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+    private val storyRepository: StoryRepository,
+) : ViewModel() {
     fun logout() {
         viewModelScope.launch {
             userRepository.logout()

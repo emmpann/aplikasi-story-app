@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
+import com.github.emmpann.aplikasistoryapp.R
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.databinding.FragmentSignupBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,8 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SignupFragment : Fragment() {
 
-    private var _binding: FragmentSignupBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentSignupBinding
     private val viewModel: SignupViewModel by viewModels()
 
     override fun onCreateView(
@@ -26,7 +26,7 @@ class SignupFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentSignupBinding.inflate(layoutInflater, container, false)
+        binding = FragmentSignupBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -57,7 +57,7 @@ class SignupFragment : Fragment() {
                                 showLoading(false)
                                 showToast(result.data.message)
                                 clearField()
-                                showDialog()
+                                showDialog(binding.emailEditText.text.toString())
                             }
 
                             is ResultApi.Error -> {
@@ -69,7 +69,6 @@ class SignupFragment : Fragment() {
                 }
 
                 clearField()
-                showToast("Signup successful!")
             }
         }
     }
@@ -127,11 +126,11 @@ class SignupFragment : Fragment() {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    private fun showDialog() {
+    private fun showDialog(email: String) {
         AlertDialog.Builder(requireContext()).apply {
-            setTitle("Yeah!")
-            setMessage("Akun dengan ${binding.emailEditText.text} sudah jadi nih. Yuk, login dan belajar coding.")
-            setPositiveButton("Lanjut") { _, _ ->
+            setTitle(getString(R.string.success))
+            setMessage(getString(R.string.signup_success, email))
+            setPositiveButton(getString(R.string.yes)) { _, _ ->
 
             }
             create()

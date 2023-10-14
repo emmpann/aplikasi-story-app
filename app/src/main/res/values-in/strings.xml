@@ -24,4 +24,7 @@
     <string name="password_strict">Password tidak boleh kurang dari 8 karakter</string>
     <string name="incorrect_format">Format email salah</string>
     <string name="error">Kesalahan!</string>
+    <string name="success">Berhasil!</string>
+    <string name="signup_success">Akun dengan %s sudah jadi nih. Yuk, login dan belajar coding</string>
+    <string name="detail_story_image">Gambar certia secara detail</string>
 </resources>
