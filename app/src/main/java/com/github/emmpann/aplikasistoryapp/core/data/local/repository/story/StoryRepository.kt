@@ -6,6 +6,10 @@ import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.Reque
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.RequestUploadStoryResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.ApiService
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onStart
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -14,9 +18,7 @@ import retrofit2.HttpException
 import java.io.File
 
 class StoryRepository (private val apiService: ApiService) {
-    fun getAllStory() = liveData {
-        emit(ResultApi.Loading)
-
+    fun getAllStory() = flow {
         try {
             val successResponse = apiService.getAllStory()
             emit(ResultApi.Success(successResponse.listStory))
@@ -25,18 +27,20 @@ class StoryRepository (private val apiService: ApiService) {
             val errorResponse = Gson().fromJson(errorBody, RequestAllStoryResponse::class.java)
             emit(ResultApi.Error(errorResponse.message))
         }
-    }
-
-    fun getStoryDetail(id: String) = liveData {
+    }.onStart {
         emit(ResultApi.Loading)
+    }.flowOn(Dispatchers.IO)
 
+    fun getStoryDetail(id: String) = flow {
         try {
             val successResponse = apiService.getDetailStory(id)
             emit(ResultApi.Success(successResponse.story))
         } catch (e: HttpException) {
             emit(ResultApi.Error(e.message()))
         }
-    }
+    }.onStart {
+        emit(ResultApi.Loading)
+    }.flowOn(Dispatchers.IO)
 
     fun uploadStory(imageFile: File, description: String) = liveData {
         emit(ResultApi.Loading)
