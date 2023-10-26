@@ -5,6 +5,7 @@ plugins {
     id("kotlin-parcelize")
     id ("androidx.navigation.safeargs")
     id("com.google.dagger.hilt.android")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -61,6 +62,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.room:room-runtime:2.5.2")
     implementation("androidx.room:room-ktx:2.4.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
     kapt("androidx.room:room-compiler:2.6.0-rc01")
 
     // datastore

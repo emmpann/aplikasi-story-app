@@ -26,4 +26,5 @@
     <string name="success">Success!</string>
     <string name="signup_success">The account with %s is ready. Come on, log in and learn to code</string>
     <string name="detail_story_image">Detail story image</string>
+    <string name="open_map">open map</string>
 </resources>

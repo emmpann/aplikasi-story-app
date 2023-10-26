@@ -50,12 +50,17 @@ class HomeFragment : Fragment() {
 
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.menu1 -> {
+                R.id.menu_map -> {
+                    view.findNavController().navigate(R.id.action_homeFragment_to_mapsFragment)
+                    true
+                }
+
+                R.id.menu_language_change -> {
                     startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
                     true
                 }
 
-                R.id.menu2 -> {
+                R.id.menu_logout -> {
                     //logout
                     showDialog()
                     true
@@ -86,7 +91,7 @@ class HomeFragment : Fragment() {
             })
         }
 
-        viewModel.getAllStory().observe(viewLifecycleOwner) {result ->
+        viewModel.stories.observe(viewLifecycleOwner) {result ->
             when (result) {
                 is ResultApi.Loading -> {
                     showLoading(true)

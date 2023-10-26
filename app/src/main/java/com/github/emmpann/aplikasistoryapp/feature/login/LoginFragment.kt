@@ -34,6 +34,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+//        viewModel.login()
+
         playAnimation()
         setupAction(view)
     }
@@ -41,29 +43,31 @@ class LoginFragment : Fragment() {
     private fun setupAction(view: View) {
         with(binding) {
             loginButton.setOnClickListener {
-                viewModel.login(emailEditText.text.toString(), passwordEditText.text.toString()).observe(viewLifecycleOwner) { result ->
-                    if (result != null) {
-                        when (result) {
-                            is ResultApi.Loading -> {
-                                // show loading
-                                showLoading(true)
-                            }
+                viewModel.login(emailEditText.text.toString(), passwordEditText.text.toString())
+                    .observe(viewLifecycleOwner) { result ->
+                        if (result != null) {
+                            when (result) {
+                                is ResultApi.Loading -> {
+                                    // show loading
+                                    showLoading(true)
+                                }
 
-                            is ResultApi.Success -> {
-                                showLoading(false)
-                                // name, userid, token
-                                viewModel.saveSession(result.data.loginResult)
-                                showToast(result.data.message)
-                                view.findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                            }
+                                is ResultApi.Success -> {
+                                    showLoading(false)
+                                    // name, userid, token
+                                    viewModel.saveSession(result.data.loginResult)
+                                    showToast(result.data.message)
+                                    view.findNavController()
+                                        .navigate(R.id.action_loginFragment_to_homeFragment)
+                                }
 
-                            is ResultApi.Error -> {
-                                showLoading(false)
-                                showDialog(result.error)
+                                is ResultApi.Error -> {
+                                    showLoading(false)
+                                    showDialog(result.error)
+                                }
                             }
                         }
                     }
-                }
             }
         }
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.Log
 import android.util.Patterns
 import androidx.appcompat.widget.AppCompatEditText
 import com.github.emmpann.aplikasistoryapp.R
@@ -22,12 +23,16 @@ class CustomEditText : AppCompatEditText {
                     if (p0.toString().isNotEmpty() && p0.toString().length < 8) showError(
                         context.getString(
                             R.string.password_strict
-                        )) else hideError()
+                        )
+                    ) else hideError()
                 } else if (inputType == 33) { // input type: textEmail
-                    if (p0.toString().isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(p0).matches()) showError(
+                    if (p0.toString().isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(p0)
+                            .matches()
+                    ) showError(
                         context.getString(
                             R.string.incorrect_format
-                        )) else hideError()
+                        )
+                    ) else hideError()
                 }
             }
 
@@ -54,7 +59,11 @@ class CustomEditText : AppCompatEditText {
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init()
     }
 

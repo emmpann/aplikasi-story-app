@@ -78,10 +78,10 @@ class AddFragment : Fragment() {
     }
 
     private fun uploadImage() {
+        showLoading(true)
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, requireContext()).reduceFileImage()
             val description = binding.descEditText.text.toString()
-            showLoading(true)
 
             viewModel.uploadStory(imageFile, description).observe(viewLifecycleOwner) { result ->
                 when (result) {

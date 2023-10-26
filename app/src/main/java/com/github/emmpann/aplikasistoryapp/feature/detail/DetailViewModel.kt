@@ -7,5 +7,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(private val storyRepository: StoryRepository) : ViewModel() {
+
+
     fun getStoryDetail(id: String) = storyRepository.getStoryDetail(id)
 }
