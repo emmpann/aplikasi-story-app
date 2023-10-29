@@ -127,7 +127,7 @@ class HomeFragment : Fragment() {
             setMessage(getString(R.string.are_you_sure))
             setPositiveButton(getString(R.string.yes)) { _, _ ->
                 viewModel.logout()
-                view?.findNavController()?.navigate(R.id.action_homeFragment_to_loginFragment)
+//                view?.findNavController()?.navigate(R.id.action_homeFragment_to_loginFragment)
             }
             create()
             show()

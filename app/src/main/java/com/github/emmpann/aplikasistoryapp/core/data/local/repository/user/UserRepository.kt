@@ -1,6 +1,7 @@
 package com.github.emmpann.aplikasistoryapp.core.data.local.repository.user
 
 import android.util.Log
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.core.data.local.pref.UserPreference
@@ -8,7 +9,12 @@ import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.Reques
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.User
 import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.ApiService
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onStart
 import retrofit2.HttpException
 
 class UserRepository(
@@ -16,9 +22,7 @@ class UserRepository(
     private val apiService: ApiService
 ) {
 
-    fun login(email: String, password: String) = liveData {
-        emit(ResultApi.Loading)
-
+    fun login(email: String, password: String) = flow {
         try {
             val successResponse = apiService.login(email, password)
             emit(ResultApi.Success(successResponse))
@@ -27,7 +31,9 @@ class UserRepository(
             val errorResponse = Gson().fromJson(errorBody, RequestLoginResponse::class.java)
             emit(ResultApi.Error(errorResponse.message))
         }
-    }
+    }.onStart {
+        emit(ResultApi.Loading)
+    }.flowOn(Dispatchers.IO)
 
     fun signUp(name: String, email: String, password: String) = liveData {
         emit(ResultApi.Loading)

@@ -2,7 +2,9 @@ package com.github.emmpann.aplikasistoryapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.github.emmpann.aplikasistoryapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -12,24 +14,22 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel: MainViewModel by viewModels()
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
-        val navController = navHostFragment.navController
-        val navInflater = navController.navInflater
-        val navGraph = navInflater.inflate(R.navigation.main_navigation)
+        navController = (supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment).navController
+        setStartDestination()
+    }
 
-        mainViewModel.getSession().observe(this) {
-            if (it.isLogin && it.token.isNotEmpty()) {
-                navGraph.setStartDestination(R.id.homeFragment)
-                navHostFragment.navController.graph = navGraph
-            } else {
-                navGraph.setStartDestination(R.id.welcomeFragment)
-                navHostFragment.navController.graph = navGraph
+    private fun setStartDestination() {
+        mainViewModel.session.observe(this) {
+            navController.navInflater.inflate(R.navigation.main_navigation).apply {
+                setStartDestination(if (it.token.isNotEmpty() && it.isLogin) R.id.homeFragment else R.id.loginFragment)
+                navController.graph = this
             }
         }
     }

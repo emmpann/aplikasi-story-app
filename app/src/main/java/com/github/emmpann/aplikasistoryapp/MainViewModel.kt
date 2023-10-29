@@ -10,9 +10,5 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val repository: UserRepository) : ViewModel() {
-    fun getSession(): LiveData<User> {
-        return repository.getSession().asLiveData()
-    }
-
-
+    val session: LiveData<User> = repository.getSession().asLiveData()
 }

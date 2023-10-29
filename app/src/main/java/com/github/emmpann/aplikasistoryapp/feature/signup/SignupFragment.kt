@@ -67,7 +67,6 @@ class SignupFragment : Fragment() {
                         }
                     }
                 }
-
                 clearField()
             }
         }

@@ -15,6 +15,7 @@ import com.github.emmpann.aplikasistoryapp.R
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.observeOn
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -34,40 +35,63 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        viewModel.login()
-
         playAnimation()
-        setupAction(view)
+        setupAction()
+        loginResponseObserve()
     }
 
-    private fun setupAction(view: View) {
+    private fun loginResponseObserve() {
+
+        viewModel.loginResponse.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is ResultApi.Loading -> {
+                    // show loading
+                    showLoading(true)
+                }
+
+                is ResultApi.Success -> {
+                    showLoading(false)
+                    // name, userid, token
+                    viewModel.saveSession(result.data.loginResult)
+                    showToast(result.data.message)
+                }
+
+                is ResultApi.Error -> {
+                    showLoading(false)
+                    showDialog(result.error)
+                }
+            }
+        }
+    }
+
+    private fun setupAction() {
         with(binding) {
             loginButton.setOnClickListener {
                 viewModel.login(emailEditText.text.toString(), passwordEditText.text.toString())
-                    .observe(viewLifecycleOwner) { result ->
-                        if (result != null) {
-                            when (result) {
-                                is ResultApi.Loading -> {
-                                    // show loading
-                                    showLoading(true)
-                                }
-
-                                is ResultApi.Success -> {
-                                    showLoading(false)
-                                    // name, userid, token
-                                    viewModel.saveSession(result.data.loginResult)
-                                    showToast(result.data.message)
-                                    view.findNavController()
-                                        .navigate(R.id.action_loginFragment_to_homeFragment)
-                                }
-
-                                is ResultApi.Error -> {
-                                    showLoading(false)
-                                    showDialog(result.error)
-                                }
-                            }
-                        }
-                    }
+//                    .observe(viewLifecycleOwner) {
+//                        if (it != null) {
+//                            when (it) {
+//                                is ResultApi.Loading -> {
+//                                    // show loading
+//                                    showLoading(true)
+//                                }
+//
+//                                is ResultApi.Success -> {
+//                                    showLoading(false)
+//                                    // name, userid, token
+//                                    viewModel.saveSession(it.data.loginResult)
+////                                    view?.findNavController()
+////                                        ?.navigate(R.id.action_loginFragment_to_homeFragment)
+////                                    showToast(it.data.message)
+//                                }
+//
+//                                is ResultApi.Error -> {
+//                                    showLoading(false)
+//                                    showDialog(it.error)
+//                                }
+//                            }
+//                        }
+//                    }
             }
         }
     }
