@@ -3,14 +3,12 @@ package com.github.emmpann.aplikasistoryapp.feature.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.emmpann.aplikasistoryapp.core.data.local.repository.user.UserRepository
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.RequestLoginResponse
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.User
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.UserResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,7 +39,7 @@ class LoginViewModel @Inject constructor(
 //    val loginResponse: LiveData<ResultApi<RequestLoginResponse>> =
 //        userRepository.login(this.email.value ?: "", this.password.value ?: "").asLiveData()
 //
-    fun saveSession(user: User) {
+    fun saveSession(user: UserResponse) {
         viewModelScope.launch {
             userRepository.saveSession(user)
         }

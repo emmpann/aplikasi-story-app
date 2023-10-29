@@ -11,6 +11,5 @@ data class RequestDetailStoryResponse(
 	val message: String,
 
 	@field:SerializedName("story")
-	val story: Story
+	val story: StoryResponse
 )
-

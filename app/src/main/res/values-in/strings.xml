@@ -27,4 +27,6 @@
     <string name="success">Berhasil!</string>
     <string name="signup_success">Akun dengan %s sudah jadi nih. Yuk, login dan belajar coding</string>
     <string name="detail_story_image">Gambar certia secara detail</string>
+    <string name="open_map">buka peta</string>
+    <string name="city">Kota Palembang</string>
 </resources>

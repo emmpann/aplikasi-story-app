@@ -8,9 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.github.emmpann.aplikasistoryapp.core.data.local.repository.story.StoryRepository
 import com.github.emmpann.aplikasistoryapp.core.data.local.repository.user.UserRepository
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.Story
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.StoryResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,6 +24,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private val _stories = MutableLiveData<ResultApi<List<Story>>>()
-    val stories : LiveData<ResultApi<List<Story>>> = storyRepository.getAllStory().asLiveData()
+    private val _stories = MutableLiveData<ResultApi<List<StoryResponse>>>()
+    val stories : LiveData<ResultApi<List<StoryResponse>>> = storyRepository.getAllStory().asLiveData()
 }

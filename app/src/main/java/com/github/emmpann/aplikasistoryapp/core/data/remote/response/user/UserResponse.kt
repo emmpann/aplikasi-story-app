@@ -1,7 +1,7 @@
 package com.github.emmpann.aplikasistoryapp.core.data.remote.response.user
 
 import com.google.gson.annotations.SerializedName
-data class User(
+data class UserResponse(
 
     @field:SerializedName("name")
     val name: String,

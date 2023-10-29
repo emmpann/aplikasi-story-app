@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.User
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.UserResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -15,7 +15,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 
 class UserPreference (private val dataStore: DataStore<Preferences>) {
 
-    suspend fun saveSession(user: User) {
+    suspend fun saveSession(user: UserResponse) {
         dataStore.edit { preferences ->
             preferences[NAME] = user.name
             preferences[USER_ID] = user.userId
@@ -24,9 +24,9 @@ class UserPreference (private val dataStore: DataStore<Preferences>) {
         }
     }
 
-    fun getSession(): Flow<User> {
+    fun getSession(): Flow<UserResponse> {
         return dataStore.data.map { preferences ->
-            User(
+            UserResponse(
                 name = preferences[NAME] ?: "",
                 userId = preferences[USER_ID] ?: "",
                 token = preferences[TOKEN_KEY] ?: "",

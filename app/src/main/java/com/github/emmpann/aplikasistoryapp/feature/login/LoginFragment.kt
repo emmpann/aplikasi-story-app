@@ -10,12 +10,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import com.github.emmpann.aplikasistoryapp.R
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.observeOn
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {

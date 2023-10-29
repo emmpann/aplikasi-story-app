@@ -17,20 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 class MapsFragment : Fragment(), OnMapReadyCallback {
 
-    private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-    }
+    private lateinit var mMap: GoogleMap
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,10 +30,23 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
+        mapFragment?.getMapAsync(this)
     }
 
     override fun onMapReady(gooogleMap: GoogleMap) {
+        mMap = gooogleMap
+
+        val palembang = LatLng(-2.976225290964905, 104.77601001650277)
+        with(mMap) {
+            addMarker(MarkerOptions().position(palembang).title(getString(R.string.city)))
+            animateCamera(CameraUpdateFactory.newLatLng(palembang))
+
+            uiSettings.isZoomControlsEnabled= true
+            uiSettings.isIndoorLevelPickerEnabled = true
+            uiSettings.isCompassEnabled = true
+            uiSettings.isMapToolbarEnabled = true
+        }
+
 
     }
 }

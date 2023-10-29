@@ -1,17 +1,13 @@
 package com.github.emmpann.aplikasistoryapp.core.data.local.repository.user
 
-import android.util.Log
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.core.data.local.pref.UserPreference
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.RequestLoginResponse
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.User
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.UserResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.ApiService
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
@@ -46,7 +42,7 @@ class UserRepository(
         }
     }
 
-    suspend fun saveSession(user: User) {
+    suspend fun saveSession(user: UserResponse) {
         userPreference.saveSession(user)
     }
 

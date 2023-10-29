@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 data class RequestLoginResponse(
 
-	@field:SerializedName("loginResult")
-	val loginResult: User,
+    @field:SerializedName("loginResult")
+	val loginResult: UserResponse,
 
-	@field:SerializedName("error")
+    @field:SerializedName("error")
 	val error: Boolean,
 
-	@field:SerializedName("message")
+    @field:SerializedName("message")
 	val message: String
 )
 

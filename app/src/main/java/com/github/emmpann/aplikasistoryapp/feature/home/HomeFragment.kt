@@ -14,7 +14,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.emmpann.aplikasistoryapp.R
 import com.github.emmpann.aplikasistoryapp.core.component.StoryAdapter
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.Story
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.StoryResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -83,7 +83,7 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = storyAdapter
             storyAdapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
-                override fun onItemClicked(data: Story) {
+                override fun onItemClicked(data: StoryResponse) {
                     val toDetailFragment = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
                     toDetailFragment.storyId = data.id
                     findNavController().navigate(toDetailFragment)

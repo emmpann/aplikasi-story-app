@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName
 
 data class RequestAllStoryResponse(
 
-	@field:SerializedName("listStory")
-	val listStory: List<Story>,
+    @field:SerializedName("listStory")
+	val listStory: List<StoryResponse>,
 
-	@field:SerializedName("error")
+    @field:SerializedName("error")
 	val error: Boolean,
 
-	@field:SerializedName("message")
+    @field:SerializedName("message")
 	val message: String
 )
