@@ -6,18 +6,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.github.emmpann.aplikasistoryapp.R
-
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.StoryResponse
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    private val boundsBuilder = LatLngBounds.Builder()
+    private val mapsViewModel: MapsViewModel by viewModels()
+    private val data: ArrayList<StoryResponse> = arrayListOf(StoryResponse(" ", " "," "," ",12.3,"", 23.3))
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,18 +44,58 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(gooogleMap: GoogleMap) {
         mMap = gooogleMap
-
-        val palembang = LatLng(-2.976225290964905, 104.77601001650277)
-        with(mMap) {
-            addMarker(MarkerOptions().position(palembang).title(getString(R.string.city)))
-            animateCamera(CameraUpdateFactory.newLatLng(palembang))
-
-            uiSettings.isZoomControlsEnabled= true
-            uiSettings.isIndoorLevelPickerEnabled = true
-            uiSettings.isCompassEnabled = true
-            uiSettings.isMapToolbarEnabled = true
+        with(mMap.uiSettings) {
+            isZoomControlsEnabled = true
+            isIndoorLevelPickerEnabled = true
+            isCompassEnabled = true
+            isMapToolbarEnabled = true
         }
 
+        getStories()
+    }
 
+    private fun getStories() {
+
+        mapsViewModel.storiesWithLocation.observe(viewLifecycleOwner) {
+            when (it) {
+                is ResultApi.Success -> {
+                    data.addAll(it.data)
+                    addManyMarker()
+                }
+
+                is ResultApi.Error -> {
+                    showToast(it.error)
+                }
+
+                else -> {}
+            }
+        }
+    }
+
+    private fun addManyMarker() {
+        data.forEach {
+            val latLng = LatLng(it.lat, it.lon)
+            mMap.addMarker(
+                MarkerOptions()
+                    .position(latLng)
+                    .title(it.name)
+                    .snippet(it.description)
+            )
+            boundsBuilder.include(latLng)
+        }
+
+        val bounds: LatLngBounds = boundsBuilder.build()
+        mMap.animateCamera(
+            CameraUpdateFactory.newLatLngBounds(
+                bounds,
+                resources.displayMetrics.widthPixels,
+                resources.displayMetrics.heightPixels,
+                300
+            )
+        )
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }

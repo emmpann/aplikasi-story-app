@@ -17,10 +17,6 @@ class LoginViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ) : ViewModel() {
 
-//    private val email = MutableLiveData<String>()
-//
-//    private val password = MutableLiveData<String>()
-
     private val _loginResponse = MutableLiveData<ResultApi<RequestLoginResponse>>()
     val loginResponse: LiveData<ResultApi<RequestLoginResponse>> get() = _loginResponse
 
@@ -30,21 +26,9 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-//
-//    fun login(email: String, password: String) {
-//        this.email.value = email
-//        this.password.value = password
-//    }
-//
-//    val loginResponse: LiveData<ResultApi<RequestLoginResponse>> =
-//        userRepository.login(this.email.value ?: "", this.password.value ?: "").asLiveData()
-//
     fun saveSession(user: UserResponse) {
         viewModelScope.launch {
             userRepository.saveSession(user)
         }
     }
-//
-//    val loginSession = userRepository.getSession()
-
 }

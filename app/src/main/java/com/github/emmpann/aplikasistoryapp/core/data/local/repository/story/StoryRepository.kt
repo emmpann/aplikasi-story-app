@@ -63,4 +63,14 @@ class StoryRepository (private val apiService: ApiService) {
             emit(ResultApi.Error(errorResponse.message))
         }
     }
+
+    fun getStoriesWithLocation() = flow {
+        try {
+            val successResponse = apiService.getStoriesWithLocation()
+            emit(ResultApi.Success(successResponse.listStory))
+        } catch (e: HttpException) {val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, RequestAllStoryResponse::class.java)
+            emit(ResultApi.Error(errorResponse.message))
+        }
+    }.flowOn(Dispatchers.IO)
 }
