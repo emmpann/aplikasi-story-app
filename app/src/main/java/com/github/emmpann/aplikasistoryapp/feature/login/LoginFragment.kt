@@ -67,31 +67,10 @@ class LoginFragment : Fragment() {
     private fun setupAction() {
         with(binding) {
             loginButton.setOnClickListener {
-                viewModel.login(emailEditText.text.toString(), passwordEditText.text.toString())
-//                    .observe(viewLifecycleOwner) {
-//                        if (it != null) {
-//                            when (it) {
-//                                is ResultApi.Loading -> {
-//                                    // show loading
-//                                    showLoading(true)
-//                                }
-//
-//                                is ResultApi.Success -> {
-//                                    showLoading(false)
-//                                    // name, userid, token
-//                                    viewModel.saveSession(it.data.loginResult)
-////                                    view?.findNavController()
-////                                        ?.navigate(R.id.action_loginFragment_to_homeFragment)
-////                                    showToast(it.data.message)
-//                                }
-//
-//                                is ResultApi.Error -> {
-//                                    showLoading(false)
-//                                    showDialog(it.error)
-//                                }
-//                            }
-//                        }
-//                    }
+                viewModel.login(
+                    emailEditText.text.toString(),
+                    passwordEditText.text.toString()
+                )
             }
         }
     }
