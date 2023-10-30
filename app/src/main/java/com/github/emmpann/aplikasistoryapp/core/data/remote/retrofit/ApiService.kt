@@ -5,7 +5,6 @@ import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.Reque
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.RequestRegisterResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.RequestLoginResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.RequestUploadStoryResponse
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.StoryResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Field
@@ -43,6 +42,8 @@ interface ApiService {
 
     @GET("stories")
     suspend fun getAllStory(
+        @Query("page") page: Int = 1,
+        @Query("size") size: Int = 20
     ): RequestAllStoryResponse
 
     @GET("stories/{id}")

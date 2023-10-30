@@ -7,10 +7,29 @@ import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.ApiService
 
 class StoryPagingSource(private val apiService: ApiService) : PagingSource<Int, StoryResponse>() {
     override fun getRefreshKey(state: PagingState<Int, StoryResponse>): Int? {
-        TODO("Not yet implemented")
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, StoryResponse> {
-        TODO("Not yet implemented")
+        return try {
+            val position = params.key ?: INITIAL_PAGE_INDEX
+            val responseData = apiService.getAllStory(position, params.loadSize)
+
+            LoadResult.Page(
+                data = responseData.listStory,
+                prevKey = if (position == INITIAL_PAGE_INDEX) null else position -1,
+                nextKey = if (responseData.listStory.isEmpty()) null else position + 1
+            )
+
+        } catch (exception: Exception) {
+            return LoadResult.Error(exception)
+        }
+    }
+
+    private companion object {
+        const val INITIAL_PAGE_INDEX = 1
     }
 }

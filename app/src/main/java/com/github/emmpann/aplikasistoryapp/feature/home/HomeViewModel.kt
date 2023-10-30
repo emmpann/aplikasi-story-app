@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.github.emmpann.aplikasistoryapp.core.data.local.repository.story.StoryRepository
 import com.github.emmpann.aplikasistoryapp.core.data.local.repository.user.UserRepository
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
@@ -24,6 +26,5 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private val _stories = MutableLiveData<ResultApi<List<StoryResponse>>>()
-    val stories : LiveData<ResultApi<List<StoryResponse>>> = storyRepository.getAllStory().asLiveData()
+    val stories: LiveData<PagingData<StoryResponse>> = storyRepository.getAllStory().cachedIn(viewModelScope)
 }

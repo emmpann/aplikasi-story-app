@@ -1,15 +1,13 @@
 package com.github.emmpann.aplikasistoryapp.core.component
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.StoryResponse
 import com.github.emmpann.aplikasistoryapp.databinding.ItemStoryBinding
 
-class StoryAdapter: RecyclerView.Adapter<StoryItemView>() {
-
-    private val list: ArrayList<StoryResponse> = arrayListOf()
+class StoryAdapter : PagingDataAdapter<StoryResponse, StoryItemView>(DIFF_CALLBACK) {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -18,12 +16,12 @@ class StoryAdapter: RecyclerView.Adapter<StoryItemView>() {
         return StoryItemView(binding)
     }
 
-    override fun getItemCount() = list.size
-
     override fun onBindViewHolder(holder: StoryItemView, position: Int) {
-        val data = list[position]
-        holder.bind(data)
-        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(data) }
+        val data = getItem(position)
+        if (data != null) {
+            holder.bind(data)
+            holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(data) }
+        }
     }
 
     interface OnItemClickCallback {
@@ -34,14 +32,19 @@ class StoryAdapter: RecyclerView.Adapter<StoryItemView>() {
         this.onItemClickCallback = onItemClickCallback
     }
 
-    fun setList(stories: List<StoryResponse>) {
-        list.addAll(stories)
-        if (list.size > 1) notifyItemRangeChanged(0, list.lastIndex) else notifyItemInserted(0)
-    }
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StoryResponse>() {
+            override fun areItemsTheSame(oldItem: StoryResponse, newItem: StoryResponse): Boolean {
+                return oldItem == newItem
+            }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun clearList() {
-        list.clear()
-        notifyDataSetChanged() // improve to diffutils
+            override fun areContentsTheSame(
+                oldItem: StoryResponse,
+                newItem: StoryResponse,
+            ): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+        }
     }
 }

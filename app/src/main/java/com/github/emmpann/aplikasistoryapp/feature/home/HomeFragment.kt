@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.emmpann.aplikasistoryapp.R
+import com.github.emmpann.aplikasistoryapp.core.component.LoadingStateAdapter
 import com.github.emmpann.aplikasistoryapp.core.component.StoryAdapter
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.StoryResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
@@ -81,7 +82,11 @@ class HomeFragment : Fragment() {
         binding.rvStory.apply {
             storyAdapter = StoryAdapter()
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = storyAdapter
+            adapter = storyAdapter.withLoadStateFooter(
+                footer = LoadingStateAdapter {
+                    storyAdapter.retry()
+                }
+            )
             storyAdapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
                 override fun onItemClicked(data: StoryResponse) {
                     val toDetailFragment = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
@@ -92,24 +97,7 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.stories.observe(viewLifecycleOwner) {result ->
-            when (result) {
-                is ResultApi.Loading -> {
-                    showLoading(true)
-                    storyAdapter.clearList()
-                }
-
-                is ResultApi.Success -> {
-                    showLoading(false)
-                    storyAdapter.setList(result.data)
-                }
-
-                is ResultApi.Error -> {
-                    showLoading(false)
-                    showToast(result.error)
-                }
-
-                else ->{}
-            }
+            storyAdapter.submitData(lifecycle, result)
         }
     }
 
@@ -127,7 +115,6 @@ class HomeFragment : Fragment() {
             setMessage(getString(R.string.are_you_sure))
             setPositiveButton(getString(R.string.yes)) { _, _ ->
                 viewModel.logout()
-//                view?.findNavController()?.navigate(R.id.action_homeFragment_to_loginFragment)
             }
             create()
             show()

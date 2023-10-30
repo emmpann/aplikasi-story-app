@@ -1,9 +1,16 @@
 package com.github.emmpann.aplikasistoryapp.core.data.local.repository.story
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
+import com.github.emmpann.aplikasistoryapp.core.data.paging.StoryPagingSource
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.RequestAllStoryResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.RequestUploadStoryResponse
+import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.StoryResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.ApiService
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -18,18 +25,16 @@ import retrofit2.HttpException
 import java.io.File
 
 class StoryRepository (private val apiService: ApiService) {
-    fun getAllStory() = flow {
-        try {
-            val successResponse = apiService.getAllStory()
-            emit(ResultApi.Success(successResponse.listStory))
-        } catch (e: HttpException) {
-            val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, RequestAllStoryResponse::class.java)
-            emit(ResultApi.Error(errorResponse.message))
-        }
-    }.onStart {
-        emit(ResultApi.Loading)
-    }.flowOn(Dispatchers.IO)
+    fun getAllStory(): LiveData<PagingData<StoryResponse>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            pagingSourceFactory = {
+                StoryPagingSource(apiService)
+            }
+        ).liveData
+    }
 
     fun getStoryDetail(id: String) = flow {
         try {
