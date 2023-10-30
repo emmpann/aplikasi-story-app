@@ -19,6 +19,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//        buildConfigField("String", "API_KEY", '"AIzaSyBfWtUDtdkYBs6ya9uDJ4uSfozuJBTI90g"')
     }
 
     buildTypes {
@@ -79,6 +80,9 @@ dependencies {
     // dagger hilt
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
+
+    // paging3
+    implementation("androidx.paging:paging-runtime-ktx:3.1.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

@@ -1,8 +1,10 @@
 package com.github.emmpann.aplikasistoryapp.feature.maps
 
+import android.content.res.Resources
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,14 +47,28 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(gooogleMap: GoogleMap) {
         mMap = gooogleMap
+
+        setMapStyle()
+        getStories()
+
         with(mMap.uiSettings) {
             isZoomControlsEnabled = true
             isIndoorLevelPickerEnabled = true
             isCompassEnabled = true
             isMapToolbarEnabled = true
         }
+    }
 
-        getStories()
+    private fun setMapStyle() {
+        try {
+            val success =
+                mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
+            if (!success) {
+                Log.e(TAG, "Style parsing failed.")
+            }
+        } catch (exception: Resources.NotFoundException) {
+            Log.e(TAG, "Can't find style. Error: ", exception)
+        }
     }
 
     private fun getStories() {
@@ -97,5 +114,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    companion object {
+        private const val TAG = "MapsActivity"
     }
 }
