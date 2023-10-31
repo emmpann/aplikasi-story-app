@@ -56,6 +56,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             isIndoorLevelPickerEnabled = true
             isCompassEnabled = true
             isMapToolbarEnabled = true
+            isMyLocationButtonEnabled = true
         }
     }
 

@@ -1,5 +1,7 @@
 package com.github.emmpann.aplikasistoryapp.feature.add
 
+import android.location.Location
+import android.location.LocationListener
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -78,7 +80,6 @@ class AddFragment : Fragment() {
     }
 
     private fun uploadImage() {
-        showLoading(true)
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, requireContext()).reduceFileImage()
             val description = binding.descEditText.text.toString()

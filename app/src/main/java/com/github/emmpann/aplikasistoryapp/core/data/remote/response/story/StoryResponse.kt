@@ -1,9 +1,11 @@
 package com.github.emmpann.aplikasistoryapp.core.data.remote.response.story
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "story")
 data class StoryResponse(
-
     @field:SerializedName("photoUrl")
     val photoUrl: String,
 
@@ -19,6 +21,7 @@ data class StoryResponse(
     @field:SerializedName("lon")
     val lon: Double,
 
+    @PrimaryKey
     @field:SerializedName("id")
     val id: String,
 

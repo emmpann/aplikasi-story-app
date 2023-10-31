@@ -1,7 +1,10 @@
 package com.github.emmpann.aplikasistoryapp.core.data.di
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
+import androidx.room.Room
+import com.github.emmpann.aplikasistoryapp.core.data.local.database.StoryDatabase
 import com.github.emmpann.aplikasistoryapp.core.data.local.pref.UserPreference
 import com.github.emmpann.aplikasistoryapp.core.data.local.pref.dataStore
 import com.github.emmpann.aplikasistoryapp.core.data.local.repository.story.StoryRepository
@@ -11,6 +14,7 @@ import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.AuthInterce
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -61,8 +65,17 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideStoryRepository(apiService: ApiService): StoryRepository {
+    fun provideStoryRepository(storyDatabase: StoryDatabase, apiService: ApiService): StoryRepository {
         Log.d("provideStoryRepository", "called")
-        return StoryRepository(apiService)
+        return StoryRepository(storyDatabase, apiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideStoryDatabase(@ApplicationContext appContext: Context): StoryDatabase {
+        return Room.databaseBuilder(
+            appContext.applicationContext,
+            StoryDatabase::class.java, "story.db"
+        ).build()
     }
 }
