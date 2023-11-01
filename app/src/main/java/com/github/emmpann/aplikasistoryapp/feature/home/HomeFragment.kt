@@ -16,7 +16,6 @@ import com.github.emmpann.aplikasistoryapp.R
 import com.github.emmpann.aplikasistoryapp.core.component.LoadingStateAdapter
 import com.github.emmpann.aplikasistoryapp.core.component.StoryAdapter
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.StoryResponse
-import com.github.emmpann.aplikasistoryapp.core.data.remote.response.ResultApi
 import com.github.emmpann.aplikasistoryapp.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 

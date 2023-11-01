@@ -4,7 +4,6 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.util.Patterns
 import androidx.appcompat.widget.AppCompatEditText
 import com.github.emmpann.aplikasistoryapp.R

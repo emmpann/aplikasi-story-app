@@ -23,6 +23,4 @@ class DetailViewModel @Inject constructor(private val storyRepository: StoryRepo
     fun setStoryId(storyId: String) {
         this.storyId.value = storyId
     }
-
-//    fun getStoryDetail(id: String) = storyRepository.getStoryDetail(id)
 }
