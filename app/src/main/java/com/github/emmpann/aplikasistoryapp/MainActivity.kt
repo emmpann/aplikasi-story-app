@@ -20,7 +20,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        navController = (supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment).navController
+        navController =
+            (supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment).navController
         setStartDestination()
     }
 

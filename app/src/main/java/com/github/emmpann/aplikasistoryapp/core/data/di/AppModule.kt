@@ -11,6 +11,8 @@ import com.github.emmpann.aplikasistoryapp.core.data.local.repository.story.Stor
 import com.github.emmpann.aplikasistoryapp.core.data.local.repository.user.UserRepository
 import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.ApiService
 import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.AuthInterceptor
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -58,14 +60,20 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(userPreferences: UserPreference, apiService: ApiService): UserRepository{
+    fun provideUserRepository(
+        userPreferences: UserPreference,
+        apiService: ApiService,
+    ): UserRepository {
         Log.d("provideUserRepository", "called")
         return UserRepository(userPreferences, apiService)
     }
 
     @Provides
     @Singleton
-    fun provideStoryRepository(storyDatabase: StoryDatabase, apiService: ApiService): StoryRepository {
+    fun provideStoryRepository(
+        storyDatabase: StoryDatabase,
+        apiService: ApiService,
+    ): StoryRepository {
         Log.d("provideStoryRepository", "called")
         return StoryRepository(storyDatabase, apiService)
     }
@@ -78,4 +86,10 @@ object AppModule {
             StoryDatabase::class.java, "story.db"
         ).build()
     }
+
+    @Provides
+    @Singleton
+    fun provideFusedLocation(@ApplicationContext appContext: Context): FusedLocationProviderClient =
+        LocationServices.getFusedLocationProviderClient(appContext)
+
 }

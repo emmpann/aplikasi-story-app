@@ -65,6 +65,7 @@ dependencies {
     implementation("androidx.room:room-runtime:2.5.2")
     implementation("androidx.room:room-ktx:2.4.0")
     implementation("androidx.room:room-paging:2.4.0-rc01")
+    implementation("androidx.camera:camera-view:1.3.0")
     kapt("androidx.room:room-compiler:2.6.0-rc01")
 
     // datastore
@@ -78,8 +79,9 @@ dependencies {
     // exif reader
     implementation("androidx.exifinterface:exifinterface:1.3.6")
 
-    // maps
-    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    // google play service maps, location
+    implementation("com.google.android.gms:play-services-maps:18.0.0")
+    implementation("com.google.android.gms:play-services-location:18.0.0")
 
     // dagger hilt
     implementation("com.google.dagger:hilt-android:2.48")
@@ -87,6 +89,12 @@ dependencies {
 
     // paging3
     implementation("androidx.paging:paging-runtime-ktx:3.1.0")
+
+    // paging testing
+    testImplementation("androidx.arch.core:core-testing:2.1.0") // InstantTaskExecutorRule
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1") //TestDispatcher
+    testImplementation("org.mockito:mockito-core:3.12.4")
+    testImplementation("org.mockito:mockito-inline:3.12.4")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

@@ -29,4 +29,6 @@
     <string name="open_map">open map</string>
     <string name="city">Palembang City</string>
     <string name="retry">Retry</string>
+    <string name="location_switch">Save current location?</string>
+    <string name="location_is_not_found_try_again">Location is not found. Try Again</string>
 </resources>

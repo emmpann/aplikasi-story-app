@@ -2,7 +2,6 @@ package com.github.emmpann.aplikasistoryapp.feature.maps
 
 import android.content.res.Resources
 import androidx.fragment.app.Fragment
-
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -29,7 +28,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private val boundsBuilder = LatLngBounds.Builder()
     private val mapsViewModel: MapsViewModel by viewModels()
-    private val data: ArrayList<StoryResponse> = arrayListOf(StoryResponse(" ", " "," "," ",12.3,"", 23.3))
+    private val data: ArrayList<StoryResponse> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +46,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(gooogleMap: GoogleMap) {
         mMap = gooogleMap
-
         setMapStyle()
         getStories()
 
@@ -56,7 +54,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             isIndoorLevelPickerEnabled = true
             isCompassEnabled = true
             isMapToolbarEnabled = true
-            isMyLocationButtonEnabled = true
         }
     }
 
