@@ -35,7 +35,7 @@ class AddFragment : Fragment() {
     private lateinit var binding: FragmentAddBinding
 
     @Inject
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val viewModel: AddViewModel by viewModels()
 

@@ -33,7 +33,7 @@ class StoryAdapter : PagingDataAdapter<StoryResponse, StoryItemView>(DIFF_CALLBA
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StoryResponse>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StoryResponse>() {
             override fun areItemsTheSame(oldItem: StoryResponse, newItem: StoryResponse): Boolean {
                 return oldItem == newItem
             }

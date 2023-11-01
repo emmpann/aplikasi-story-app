@@ -90,7 +90,7 @@ dependencies {
     // paging3
     implementation("androidx.paging:paging-runtime-ktx:3.1.0")
 
-    // paging testing
+    // testing
     testImplementation("androidx.arch.core:core-testing:2.1.0") // InstantTaskExecutorRule
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1") //TestDispatcher
     testImplementation("org.mockito:mockito-core:3.12.4")
