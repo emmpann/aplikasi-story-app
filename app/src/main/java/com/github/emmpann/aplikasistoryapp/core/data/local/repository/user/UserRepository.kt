@@ -6,6 +6,7 @@ import com.github.emmpann.aplikasistoryapp.core.data.local.pref.UserPreference
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.RequestLoginResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.user.UserResponse
 import com.github.emmpann.aplikasistoryapp.core.data.remote.retrofit.ApiService
+import com.github.emmpann.aplikasistoryapp.util.wrapEspressoIdlingResource
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -15,21 +16,24 @@ import retrofit2.HttpException
 
 class UserRepository(
     private val userPreference: UserPreference,
-    private val apiService: ApiService
+    private val apiService: ApiService,
 ) {
 
     fun login(email: String, password: String) = flow {
-        try {
-            val successResponse = apiService.login(email, password)
-            emit(ResultApi.Success(successResponse))
-        } catch (e: HttpException) {
-            val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, RequestLoginResponse::class.java)
-            emit(ResultApi.Error(errorResponse.message))
+        wrapEspressoIdlingResource {
+            try {
+                val successResponse = apiService.login(email, password)
+                emit(ResultApi.Success(successResponse))
+            } catch (e: HttpException) {
+                val errorBody = e.response()?.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, RequestLoginResponse::class.java)
+                emit(ResultApi.Error(errorResponse.message))
+            }
         }
     }.onStart {
         emit(ResultApi.Loading)
     }.flowOn(Dispatchers.IO)
+
 
     fun signUp(name: String, email: String, password: String) = liveData {
         emit(ResultApi.Loading)

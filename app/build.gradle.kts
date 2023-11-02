@@ -17,9 +17,8 @@ android {
         minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-//        buildConfigField("String", "API_KEY", '"AIzaSyBfWtUDtdkYBs6ya9uDJ4uSfozuJBTI90g"')
+
+        testInstrumentationRunner = "com.github.emmpann.aplikasistoryapp.CustomTestRunner"
     }
 
     buildTypes {
@@ -66,6 +65,7 @@ dependencies {
     implementation("androidx.room:room-ktx:2.4.0")
     implementation("androidx.room:room-paging:2.4.0-rc01")
     implementation("androidx.camera:camera-view:1.3.0")
+    implementation("com.google.ar:core:1.40.0")
     kapt("androidx.room:room-compiler:2.6.0-rc01")
 
     // datastore
@@ -94,7 +94,21 @@ dependencies {
     testImplementation("androidx.arch.core:core-testing:2.1.0") // InstantTaskExecutorRule
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1") //TestDispatcher
     testImplementation("org.mockito:mockito-core:3.12.4")
+    androidTestImplementation("org.mockito:mockito-android:3.12.4")
     testImplementation("org.mockito:mockito-inline:3.12.4")
+    implementation ("androidx.test.espresso:espresso-idling-resource:3.4.0")
+
+
+    // ui test
+    debugImplementation("androidx.fragment:fragment-testing:1.4.1") //launchFragmentInContainer
+
+    // For Robolectric tests.
+    testImplementation("com.google.dagger:hilt-android-testing:2.48")
+    kaptTest("com.google.dagger:hilt-android-compiler:2.48")
+
+    // For instrumentation tests
+    androidTestImplementation  ("com.google.dagger:hilt-android-testing:2.48")
+    kaptAndroidTest ("com.google.dagger:hilt-compiler:2.48")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

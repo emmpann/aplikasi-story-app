@@ -14,12 +14,10 @@ import com.github.emmpann.aplikasistoryapp.core.component.StoryAdapter
 import com.github.emmpann.aplikasistoryapp.core.data.local.repository.story.StoryRepository
 import com.github.emmpann.aplikasistoryapp.core.data.local.repository.user.UserRepository
 import com.github.emmpann.aplikasistoryapp.core.data.remote.response.story.StoryResponse
-import com.github.emmpann.aplikasistoryapp.feature.home.StoryPagingSource
 import com.github.emmpann.aplikasistoryapp.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -66,7 +64,7 @@ class HomeViewModelTest {
         assertEquals(dummyStory[0], differ.snapshot()[0])
     }
 
-    val noopListUpdateCallback = object : ListUpdateCallback {
+    private val noopListUpdateCallback = object : ListUpdateCallback {
         override fun onInserted(position: Int, count: Int) {}
         override fun onRemoved(position: Int, count: Int) {}
         override fun onMoved(fromPosition: Int, toPosition: Int) {}
@@ -74,19 +72,19 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `when Get Quote Empty Should Return No Data`() = runTest {
+    fun `when Get Story Empty Should Return No Data`() = runTest {
         val data: PagingData<StoryResponse> = PagingData.from(emptyList())
         val expectedStory = MutableLiveData<PagingData<StoryResponse>>()
         expectedStory.value = data
         Mockito.`when`(storyRepository.getAllStory()).thenReturn(expectedStory)
         val mainViewModel = HomeViewModel(userRepository, storyRepository)
-        val actualQuote: PagingData<StoryResponse> = mainViewModel.stories.getOrAwaitValue()
+        val actualStory: PagingData<StoryResponse> = mainViewModel.stories.getOrAwaitValue()
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoryAdapter.DIFF_CALLBACK,
             updateCallback = noopListUpdateCallback,
             workerDispatcher = Dispatchers.Main,
         )
-        differ.submitData(actualQuote)
+        differ.submitData(actualStory)
         assertEquals(0, differ.snapshot().size)
     }
 }
