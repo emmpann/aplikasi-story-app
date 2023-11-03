@@ -1,4 +1,4 @@
-package com.github.emmpann.aplikasistoryapp.core.data
+package com.github.emmpann.aplikasistoryapp.core.data.paging
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
