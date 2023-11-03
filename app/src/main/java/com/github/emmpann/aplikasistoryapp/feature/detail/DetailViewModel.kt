@@ -12,11 +12,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(private val storyRepository: StoryRepository) : ViewModel() {
+class DetailViewModel @Inject constructor(private val storyRepository: StoryRepository) :
+    ViewModel() {
 
     private val storyId = MutableLiveData<String>()
 
-    val storyDetail: LiveData<ResultApi<StoryResponse>> = storyId.switchMap{
+    val storyDetail: LiveData<ResultApi<StoryResponse>> = storyId.switchMap {
         storyRepository.getStoryDetail(it).asLiveData()
     }
 

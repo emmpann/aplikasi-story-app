@@ -66,7 +66,9 @@ class HomeFragment : Fragment() {
                     true
                 }
 
-                else -> {true}
+                else -> {
+                    true
+                }
             }
         }
     }
@@ -88,24 +90,17 @@ class HomeFragment : Fragment() {
             )
             storyAdapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
                 override fun onItemClicked(data: StoryResponse) {
-                    val toDetailFragment = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
+                    val toDetailFragment =
+                        HomeFragmentDirections.actionHomeFragmentToDetailFragment()
                     toDetailFragment.storyId = data.id
                     findNavController().navigate(toDetailFragment)
                 }
             })
         }
 
-        viewModel.stories.observe(viewLifecycleOwner) {result ->
+        viewModel.stories.observe(viewLifecycleOwner) { result ->
             storyAdapter.submitData(lifecycle, result)
         }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        if (isLoading) binding.progressBar.visibility = View.VISIBLE else binding.progressBar.visibility = View.GONE
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun showDialog() {

@@ -26,5 +26,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    val stories: LiveData<PagingData<StoryResponse>> = storyRepository.getAllStory().cachedIn(viewModelScope)
+    val stories: LiveData<PagingData<StoryResponse>> =
+        storyRepository.getAllStory().cachedIn(viewModelScope)
 }

@@ -29,4 +29,8 @@
     <string name="detail_story_image">Gambar certia secara detail</string>
     <string name="open_map">buka peta</string>
     <string name="city">Kota Palembang</string>
+    <string name="retry">Coba lagi</string>
+    <string name="retry">Co</string>
+    <string name="location_switch">Simpan lokasi saat ini?</string>
+    <string name="location_is_not_found_try_again">Lokasi tidak ditemukan, Coba Lagi</string>
 </resources>

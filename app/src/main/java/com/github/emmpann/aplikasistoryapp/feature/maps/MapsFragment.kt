@@ -60,7 +60,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private fun setMapStyle() {
         try {
             val success =
-                mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
+                mMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                        requireContext(),
+                        R.raw.map_style
+                    )
+                )
             if (!success) {
                 Log.e(TAG, "Style parsing failed.")
             }

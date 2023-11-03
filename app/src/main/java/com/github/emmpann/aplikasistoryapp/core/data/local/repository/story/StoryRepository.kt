@@ -25,9 +25,12 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
 import java.io.File
 
-class StoryRepository (private val storyDatabase: StoryDatabase, private val apiService: ApiService) {
+class StoryRepository(
+    private val storyDatabase: StoryDatabase,
+    private val apiService: ApiService,
+) {
     @OptIn(ExperimentalPagingApi::class)
-    fun getAllStory(): LiveData<PagingData<StoryResponse> >{
+    fun getAllStory(): LiveData<PagingData<StoryResponse>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5
@@ -77,7 +80,8 @@ class StoryRepository (private val storyDatabase: StoryDatabase, private val api
         try {
             val successResponse = apiService.getStoriesWithLocation()
             emit(ResultApi.Success(successResponse.listStory))
-        } catch (e: HttpException) {val errorBody = e.response()?.errorBody()?.string()
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, RequestAllStoryResponse::class.java)
             emit(ResultApi.Error(errorResponse.message))
         }
